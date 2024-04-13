@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link type="text/css" rel="stylesheet" href="../static/css/classification_styles.css">
+	<title>Определение типа семян</title>
+</head>
+<body>
+	<div class="header">
+		<span>Классификация образца семян</span>
+	</div>
+	<div class="main">
+		<form method="post">
+			<div class="content">
+				{% for index, item in data.iterrows() %}
+					<div class="item">
+						<label class="item-name">{{item['property_name']}}</label>
+						{% if item['property_type'] == 'integer' %}
+						<input type="number" class="item-value" name="input_{{item['property_name']}}" step="1" min="0">
+						<label class="item-unit">Шт.</label>
+						{% elif item['property_type'] == 'percent' %}
+						<input type="number" class="item-value" name="input_{{item['property_name']}}" min="0" max="100" step="0.01">
+						<label class="item-unit">%</label>
+						{% endif %}
+					</div>
+				{% endfor %}
+			</div>
+			<button type="submit" id="submit-button" disabled>Определить класс</button>
+		</form>
+	</div>
+	{% if result is not none %}
+	<div class="result">
+		{% if result|length > 0 %}
+		<p class="answer">Образец семян относится к следующим классам: {{ result|join(', ') }}
+		{% else %}
+		<p class="answer">Образец семян не относится ни к одному из существующих классов, а значит не пригоден к использованию в промышленных целях
+		{% endif %}
+		<img src="../static/media/question_icon.png" alt="Информация о решении" id="question_icon"></p>
+		<div class="explanation" id="explanation">
+			<img src="../static/media/cross-icon.webp" alt="Закрыть" id="cross_icon">
+			{% for i in logs %}
+				<p>Образец не принадлежит классу {{i[0]}}, т.к. значение признака {{i[1]}} меньше {{i[2]}} или больше {{i[3]}}</p>
+			{% endfor %}
+			{% if result|length > 0 %}
+			<p>Для классов {{ result|join(', ') }} противоречий не наблюдается, поэтому образец к нем относится.</p>
+			{% else %}
+			<p>Образец семян не относится ни к одному из существующих классов, а значит не пригоден к использованию в промышленных целях</p>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+</body>
+<script src="../static/scripts/hide_explanation.js"></script>
+<script src="../static/scripts/is_form_filled.js"></script>
+</html>

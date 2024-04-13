@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+}
+div.main-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100vh;
+}
+div.main-item {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 50vw;
+    font-size: 4rem;
+    transition: all 0.3s linear;
+}
+div.main-item span {
+    font-size: inherit;
+    color: white;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    align-self: center;
+}
+#left {
+    background-color: rgb(203, 1, 51);
+}
+#right {
+    background-color: rgb(0, 47, 85);
+}
+div.main-item:hover {
+    outline: auto darkgrey;
+    font-size: 5rem;
+}
+a {
+    text-decoration: none;
+    height: 100vh;
+    color: white;
+}

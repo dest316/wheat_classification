@@ -1,0 +1,61 @@
+div.super-container {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(60, 80, 80);
+}
+div.menu {
+    display: flex;
+    width: 25%;
+    border: solid 2px black;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1vw 1vh;
+}
+div.content {
+    width: 70%;
+    border: solid 2px black;
+    padding: 2vw;
+}
+button.menu-item {
+    width: 90%;
+    height: 9vh;
+    margin: 3vh 0;
+    font-size: 1.6rem;
+    background-color: rgb(20,20,20);
+    color: #1bead9;
+    border-radius: 0.5vw;
+}
+div.content > form {
+    display: flex;
+    margin: 2vh 0;
+}
+div.content label {
+    background-color: white;
+    color: black;
+    padding: 1vw;
+    border-radius: 0.4vw 0 0 0.4vw;
+    align-self:flex-end;
+}
+div.content button {
+    background-color: rgb(20, 20, 20);
+    color: #1bead9;
+    border-radius: 0 0.4vw 0.4vw 0;
+    font-size: 1rem;
+    padding: 0 1vw;
+}
+form * {
+    margin: 0 1vh;
+}
+select {
+    max-height: 40vh;
+    min-height: 20vh;
+    width: 40vw;
+}
+select option {
+    font-size: 1.2rem;
+    margin: 0.2vh 0;
+}
+button.active {
+    border: dashed 0.3vh #1bead9;
+}

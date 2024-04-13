@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Редактор базы знаний</title>
+	<link type="text/css" rel="stylesheet" href="../static/css/editor_styles.css">
+</head>
+<body>
+	<div class="super-container">
+		<div class="menu">
+			<button class="menu-item" id="classes-button">Классы группы семян</button>
+			<button class="menu-item" id="properties-button">Признаки</button>
+			<button class="menu-item" id="relevant-values-button">Возможные значения</button>
+			<button class="menu-item" id="properties-classes-button">Признаки класса</button>
+			<button class="menu-item" id="relevant-values-for-classes-button">Значения для класса</button>
+			<button class="menu-item" id="check-button">Проверка полноты знаний</button>
+		</div>
+		<div class="content" id="content">
+			{% if content_type == 'classes' %}
+			<form method="post">
+				<label for="new-class-input">Новый класс</label>
+				<input type="text" name="new_class_name" id="new-class-input" placeholder="Новый класс">
+				<button type="submit">Добавить класс</button>
+			</form>
+			<form method="post">
+				<label>Классы</label>
+				<select multiple name="classes">
+					{% for index, item in content['classes'].iterrows() %}
+						<option value="{{item[0]}}">{{item[1]}}</option>
+					{% endfor %}
+				</select>
+				<button type="submit">Удалить классы</button>
+			</form>
+			{% elif content_type == 'properties' %}
+			<form method="post">
+				<label for="new-property-input">Новый признак</label>
+				<input type="text" name="new_property_name" id="new-property-input" placeholder="Новый признак">
+				<select name="properties_types">
+					{% for index, item in content['types'].iterrows() %}
+					<option value="{{item[0]}}">{{item[1]}}</option>
+					{% endfor %}
+				</select>
+				<button type="submit">Добавить признак</button>
+			</form>
+			<form method="post">
+				<label>Признаки</label>
+				<select multiple name="properties">
+					{% for index, item in content['properties'].iterrows() %}
+						<option value="{{item['property_id']}}">{{item['property_name']}}</option>
+					{% endfor %}
+				</select>
+				<button type="submit">Удалить признаки</button>
+			</form>
+			{% elif content_type == 'relevant_values' %}
+			<form method="post">
+				<label>Выберете признак</label>
+				<select name="properties_list">
+				{% for index, item in content['properties'].iterrows() %}
+					<option value="{{item['property_id']}}">{{item['property_name']}}</option>
+				{% endfor %}
+				</select>
+				<label>Задать интервалы значений</label>
+				<label for="from">От:</label>
+				<input type="number" name="from" id="from" step="0.01">
+				<label for="to">До:</label>
+				<input type="number" name="to" id="to" step="0.01">
+				<button type="submit">Добавить</button>
+			</form>
+			{% elif content_type == 'property_class' %}
+			<form method="post">
+				<select name="classes">
+					{% for index, item in content['classes'].iterrows() %}
+						<option value="{{item[0]}}">{{item[1]}}</option>
+					{% endfor %}
+				</select>
+				<select multiple name="properties">
+					{% for index, item in content['properties'].iterrows() %}
+						<option value="{{item['property_id']}}">{{item['property_name']}}</option>
+					{% endfor %}
+				</select>
+				<button>Связать</button>
+			</form>
+			{% elif content_type == 'relevant-class' %}
+			<form method="post">
+				<select name="classes">
+					{% for index, item in content['classes'].iterrows() %}
+						<option value="{{item[0]}}">{{item[1]}}</option>
+					{% endfor %}
+				</select>
+				<select name="properties">
+					{% for index, item in content['properties'].iterrows() %}
+						<option value="{{item['property_id']}}">{{item['property_name']}}</option>
+					{% endfor %}
+				</select>
+				<label for="from">От:</label>
+				<input type="number" name="from" id="from" step="0.01">
+				<label for="to">До:</label>
+				<input type="number" name="to" id="to" step="0.01">
+				<button type="submit">Добавить</button>
+			</form>
+			{% elif content_type == 'completeness' %}
+				{% if content['messages']|length == 0 %}
+				<p>Знания полны!</p>
+				{% else %}
+					{% for item in content['messages'] %}
+					<p>{{item}}</p>
+					{% endfor %}
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</body>
+<script src="../static/scripts/editor_navigation.js"></script>
+</html>

@@ -15,7 +15,7 @@ def classification():
     if request.method == 'POST':
         gotten_data = {}
         for i in request.form.items():
-            if 'input_' in i[0]:
+            if 'input_' in i[0] and i[1] != '':
                 gotten_data[i[0][6:]] = float(i[1])
         classes = get_classes(conn)
         result = []
@@ -23,6 +23,8 @@ def classification():
         for index, item in classes.iterrows():
             flag = True
             for index1, it in get_properties_by_class(conn, item['class_id']).iterrows():
+                if not it['property_name'] in gotten_data:
+                    continue
                 if gotten_data[it['property_name']] < it['min_value'] or gotten_data[it['property_name']] > it['max_value']:
                     flag = False
                     logs.append((item['class_name'], it['property_name'], it['min_value'], it['max_value']))
